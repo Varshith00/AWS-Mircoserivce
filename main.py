@@ -12,31 +12,23 @@ async def root():
     return {"message": "Wikipedia API. Call /search or /wiki"}
 
 
-@app.get("/search/{value}")
-async def search(value:str):
-    
-    """page to search in wikipedia"""
+@app.get("/search/{query}")
+async def search(query: str):
+    result = search_wiki(query)
+    return {"result": result}
 
-    result = search_wiki(value)
-    return {"result":result}
 
-@app.get("/wiki/{value}")
-async def wiki(name:str):
-    
-    """retrive a page wikipedia"""
+@app.get("/wiki/{topic}")
+async def wiki(topic: str):
+    result = wikilogic(topic)
+    return {"result": result}
 
-    result = wikilogic(name)
-    return {"result":result}
 
-@app.get("/phrase/{value}")
-async def search(value:str):
-    
-    """page to search in wikipedia"""
-
-    result = wikiphrase(value)
-    return {"result":result}
+@app.get("/phrase/{text}")
+async def phrase(text: str):
+    result = wikiphrase(text)
+    return {"result": result}
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, port=8080, host="0.0.0.0")
-
+    uvicorn.run(app, host="0.0.0.0", port=8080)
