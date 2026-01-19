@@ -5,6 +5,8 @@ install:
 format:
 	#format code
 	black *.py mylib/*.py 
+post-install:
+	python -m textblob.download_corpora
 lint:
 	#flake8 or #pylint
 	pylint --disable=R,C *.py mylib/*.py
@@ -23,4 +25,4 @@ deploy:
 	docker tag wiki:latest 492901506671.dkr.ecr.ap-south-2.amazonaws.com/wiki:latest
 	docker push 492901506671.dkr.ecr.ap-south-2.amazonaws.com/wiki:latest
 	
-all: install lint test deploy
+all: install post-install lint test deploy
